@@ -11,6 +11,13 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+     integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+     crossorigin=""/>
+     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+     crossorigin=""></script>
 </head>
 
     <style>
@@ -18,7 +25,13 @@
             font-family: 'Poppins', sans-serif;
             background-color: #FFFFFF; 
         }
-        
+        #map {
+          height: 500px;
+          width: 100%;
+          border-radius: 20px;
+          overflow: hidden;
+          box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
         .font-display {
             font-family: 'Merriweather', serif;
         }
@@ -184,6 +197,101 @@
             }, 5000); // Ganti gambar setiap 5 detik
         </script>
         </main>
+
+
+
+
+
+
+
+<section class="py-8 bg-white">
+  <div class="max-w-8xl mx-auto px-4">
+    <!-- Judul -->
+    <div class="text-center mb-10">
+      <p class="text-sm uppercase text-amber-800 font-semibold mb-2">Peta Eksplorasi Batik</p>
+      <h2 class="text-3xl font-bold mb-4">Eksplorasi Daerah Asal Batik Nusantara</h2>
+      <p class="text-gray-600 max-w-2xl mx-auto">
+        Jelajahi keberagaman batik dari berbagai daerah di Indonesia, masing-masing dengan motif khas dan cerita budaya yang unik dari asalnya.
+      </p>
+    </div>
+
+    <!-- Grid 2 Kolom: PETA KIRI - LIST KANAN -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+      <!-- Kiri: Peta -->
+      <div>
+        <div id="map" class="rounded-lg shadow-md border border-gray-200 h-[500px]"></div>
+      </div>
+
+      <!-- Kanan: Daftar Batik -->
+      <div class="bg-[#fafafa] border border-gray-200 rounded-lg p-6 shadow-md h-[500px] overflow-y-auto">
+        <h3 class="text-xl font-bold text-gray-800 mb-4">Daftar Persebaran Batik</h3>
+        <ul id="batik-list" class="space-y-4 text-left text-gray-700">
+          <!-- List batik akan di-generate via JS -->
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Script Peta -->
+  <script>
+    var map = L.map('map').setView([-2.5, 118.0], 5);
+
+    L.tileLayer('https://tiles.stadiamaps.com/tiles/stamen_watercolor/{z}/{x}/{y}.jpg?api_key=20ff24f8-6799-4bf0-a0c8-47848e93c41f', {
+      attribution: '&copy; <a href="https://stamen.com/">Stamen Design</a>, &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+      minZoom: 1,
+      maxZoom: 16
+    }).addTo(map);
+
+    var blueIcon = new L.Icon({
+      iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-blue.png',
+      shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
+      iconSize: [25, 41],
+      iconAnchor: [12, 41],
+      popupAnchor: [1, -34],
+      shadowSize: [41, 41]
+    });
+
+    const provinsiBatik = [
+      { name: "Aceh", coords: [5.55, 95.316], batik: "Batik Aceh (Motif Rencong)", desc: "Motif batik Aceh menonjolkan senjata tradisional Rencong, melambangkan keberanian dan identitas masyarakat Aceh." },
+      { name: "Sumatera Utara", coords: [3.6, 98.67], batik: "Batik Gorga", desc: "Batik Gorga terinspirasi dari ukiran Batak Toba, dengan motif geometris dan warna merah-hitam-putih khas budaya Batak." },
+      { name: "Sumatera Barat", coords: [-0.9471, 100.4172], batik: "Batik Tanah Liek", desc: "Dikenal karena menggunakan tanah liat sebagai pewarna alami, menghasilkan warna earthy yang unik." },
+      { name: "Riau", coords: [0.5333, 101.45], batik: "Batik Tabir", desc: "Motif batik Riau menggambarkan keindahan alam dan nilai-nilai Melayu, seperti flora-fauna khas pesisir." },
+      { name: "Jawa Barat", coords: [-6.9039, 107.6186], batik: "Batik Mega Mendung", desc: "Motif awan bergelombang dari Cirebon ini melambangkan kesabaran dan ketenangan hati." },
+      { name: "Jawa Tengah", coords: [-7.0051, 110.4381], batik: "Batik Sidomukti", desc: "Motif klasik ini menggambarkan harapan akan kebahagiaan dan kemakmuran, sering digunakan pada acara pernikahan." },
+      { name: "Jawa Timur", coords: [-7.25, 112.75], batik: "Batik Kawung & Madura", desc: "Batik Kawung berasal dari motif buah aren, sedangkan Madura dikenal dengan warna-warna kontras dan garis tegas." },
+      { name: "Bali", coords: [-8.4095, 115.1889], batik: "Batik Bali", desc: "Kental akan nuansa spiritual dan Hindu Bali, motifnya sering menampilkan dewa-dewi dan ornamen pura." },
+      { name: "Sulawesi Selatan", coords: [-5.1357, 119.4124], batik: "Batik Toraja", desc: "Terinspirasi dari ukiran rumah adat Tongkonan dan simbol spiritual suku Toraja." },
+      { name: "Papua", coords: [-4.2699, 138.08], batik: "Batik Cendrawasih Papua", desc: "Menggambarkan burung cendrawasih dan kekayaan alam Papua dengan warna cerah dan motif alami." }
+    ];
+
+    // Tambahkan marker ke peta
+    provinsiBatik.forEach(item => {
+      L.marker(item.coords, { icon: blueIcon }).addTo(map)
+        .bindPopup(`
+          <div style="text-align: left;">
+            <strong style="color: #92400e;">${item.name}</strong><br>
+            <em>${item.batik}</em><br>
+            <p style="margin-top: 4px;">${item.desc}</p>
+          </div>
+        `);
+    });
+
+    // Generate daftar batik ke list
+    const batikListEl = document.getElementById('batik-list');
+    provinsiBatik.forEach(item => {
+      const li = document.createElement('li');
+      li.className = 'border-b pb-2';
+      li.innerHTML = `
+        <strong class="text-[#92400e]">${item.name}</strong><br>
+        <span class="italic">${item.batik}</span><br>
+        <p class="text-sm mt-1 text-gray-600">${item.desc}</p>
+      `;
+      batikListEl.appendChild(li);
+    });
+  </script>
+</section>
+
+
 
 
 
