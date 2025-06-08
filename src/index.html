@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Larasena</title>
+    <link rel="stylesheet" href="./output.css">
+</head>
+
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #FFFFFF; 
+        }
+        
+        .font-display {
+            font-family: 'Merriweather', serif;
+        }
+
+        input[type=search]::-webkit-search-decoration,
+        input[type=search]::-webkit-search-cancel-button,
+        input[type=search]::-webkit-search-results-button,
+        input[type=search]::-webkit-search-results-decoration {
+            -webkit-appearance:none;
+        }
+    </style>
+
+<body>
+    
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <!-- Header / Navbar -->
+        <header class="py-5">
+            <nav class="flex justify-between items-center">
+                <!-- Logo -->
+                <a href="#" class="flex items-center gap-2">
+                    <img src="./images/bluk 1.svg" alt="Logo Larasena" class="h-8 w-auto">
+                    <span class="font-display text-2xl font-bold text-[#4F382B]">Larasena</span>
+                </a>
+
+                <!-- Navigation Links (Desktop) -->
+                <ul class="hidden lg:flex items-center space-x-10">
+                    <li><a href="#" class="text-[#4F382B] hover:text-opacity-80 transition-opacity duration-300 font-medium">Beranda</a></li>
+                    <li><a href="#" class="text-[#4F382B] hover:text-opacity-80 transition-opacity duration-300 font-medium">Product</a></li>
+                    <li><a href="#" class="text-[#4F382B] hover:text-opacity-80 transition-opacity duration-300 font-medium">Artikel</a></li>
+                    <li><a href="#" class="text-[#4F382B] hover:text-opacity-80 transition-opacity duration-300 font-medium">Tentang Kami</a></li>
+                </ul>
+
+                <!-- Icons (Desktop) -->
+                <div class="hidden lg:flex items-center space-x-6">
+                    <a href="#" class="text-[#4F382B] hover:text-opacity-80">
+                        <!-- User Icon SVG -->
+                        <img src="./images/Group.svg" alt="keranjang">
+                    </a>
+                    <a href="#" class="text-[#4F382B] hover:text-opacity-80">
+                        <!-- Shopping Bag Icon SVG -->
+                        <img src="./images/Group (1).svg" alt="profile">
+                    </a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <div class="lg:hidden">
+                    <button id="mobile-menu-button" class="text-[#4F382B] focus:outline-none">
+                        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                    </button>
+                </div>
+            </nav>
+            <!-- Mobile Menu (Hidden by default) -->
+            <div id="mobile-menu" class="hidden lg:hidden mt-4">
+                <ul class="flex flex-col space-y-3">
+                    <li><a href="#" class="block text-center py-2 text-[#4F382B] hover:bg-gray-100 rounded-md">Beranda</a></li>
+                    <li><a href="#" class="block text-center py-2 text-[#4F382B] hover:bg-gray-100 rounded-md">Product</a></li>
+                    <li><a href="#" class="block text-center py-2 text-[#4F382B] hover:bg-gray-100 rounded-md">Artikel</a></li>
+                    <li><a href="#" class="block text-center py-2 text-[#4F382B] hover:bg-gray-100 rounded-md">Tentang Kami</a></li>
+                </ul>
+            </div>
+        </header>
+        
+        <!-- Hero Section -->
+        <main class="mt-4">
+            <!-- Background & Content Container -->
+            <div class="relative bg-cover bg-center rounded-2xl p-8 sm:p-12 lg:p-16 flex items-center min-h-[60vh] lg:min-h-[70vh]" style="background-image: url('./images/Larasena\ 1.png');">
+                
+                <!-- Content Block -->
+                <!-- <div class="max-w-xl text-[#462D20]">
+                    <p class="text-xl sm:text-2xl">Selamat Datang di</p>
+                    <h1 class="font-display text-6xl sm:text-7xl lg:text-8xl font-black text-white" style="text-shadow: 2px 2px 4px rgba(79, 56, 43, 0.5);">Larasena</h1>
+                    <h2 class="font-display text-xl sm:text-2xl mt-4">Harmoni Warisan Budaya dalam Sentuhan Digital</h2>
+                    <p class="mt-4 text-sm sm:text-base leading-relaxed">Temukan pesona batik Indonesia, dari motif klasik hingga inovasi modern, semua tersaji memadukan cerita, warna, dan makna.</p>
+                </div> -->
+            </div>
+            
+            <!-- Search Bar -->
+            <div class="w-full lg:w-3/4 mx-auto -mt-8 relative z-10">
+                <div class="relative">
+                    <!-- <p>Search for products, categories, or brands...</p> -->
+                    <input 
+                        type="search" 
+                        placeholder="Search for products, categories or brands..."
+                        class="w-full bg-white shadow-lg rounded-md py-4 px-6 text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-amber-800/50"
+                    >
+                    <button class="absolute inset-y-0 right-0 flex items-center pr-6 text-gray-500 hover:text-amber-800">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                    </button>
+                </div>
+            </div>
+        </main>
+
+    </div>
+
+    <script>
+        // JavaScript untuk handle mobile menu toggle
+        document.addEventListener('DOMContentLoaded', () => {
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+        });
+    </script>
+
+</body>
+</html>
