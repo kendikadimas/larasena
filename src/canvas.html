@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Batik Designer - Pembuat Desain Batik</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.0/fabric.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .pattern-item {
+            cursor: grab;
+            transition: transform 0.2s;
+        }
+        .pattern-item:hover {
+            transform: scale(1.05);
+        }
+        .pattern-item:active {
+            cursor: grabbing;
+        }
+        .canvas-container {
+            border: 2px dashed #d1d5db;
+            border-radius: 8px;
+        }
+        .active-tool {
+            background-color: #3b82f6 !important;
+            color: white !important;
+        }
+        .pattern-preview {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 2px solid #e5e7eb;
+        }
+        .loading-pattern {
+            background: linear-gradient(90deg, #f3f4f6 25%, #e5e7eb 50%, #f3f4f6 75%);
+            background-size: 200% 100%;
+            animation: loading 1.5s infinite;
+        }
+        @keyframes loading {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Header -->
+    <!-- <header class="bg-white shadow-sm border-b">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center py-4">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-gradient-to-r from-amber-500 to-orange-600 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-palette text-white text-lg"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-2xl font-bold text-gray-900">Batik Designer</h1>
+                        <p class="text-sm text-gray-600">Pembuat Desain Batik Digital</p>
+                    </div>
+                </div>
+               
+            </div>
+        </div>
+    </header> -->
+
+    <!-- Hidden file input -->
+    <input type="file" id="fileInput" accept="image/*" style="display: none;">
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+            <!-- Sidebar - Pattern Library -->
+            <div class="lg:col-span-1">
+                <div class="bg-white rounded-lg shadow-sm border p-4 pt-7">
+                    <h2 class="text-lg font-semibold text-gray-900 mb-6">Motif Batik</h2>
+                    
+                    <!-- Tabs -->
+                    <!-- < class="flex space-x-1 mb-4">
+                        <button class="tab-btn active-tool px-3 py-2 text-sm rounded-md" data-tab="patterns">Pola Batik</button>
+                        <!-- <button class="tab-btn px-3 py-2 text-sm rounded-md bg-gray-100" data-tab="shapes">Bentuk</button> -->
+                    
+
+                    <!-- Batik Patterns -->
+                    <div id="patterns-tab" class="tab-content">
+                        <div class="grid grid-cols-2 gap-3" id="patternsGrid">
+                            <!-- Patterns will be loaded here -->
+                        </div>
+                        <div class="mt-3 text-center">
+                            <button id="addPatternBtn" class="w-full bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-2 rounded-md text-sm flex items-center justify-center space-x-2 border-2 border-dashed border-gray-300">
+                                <i class="fas fa-plus"></i>
+                                <span>Tambah Pola</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Basic Shapes -->
+                    <div id="shapes-tab" class="tab-content hidden">
+                        <div class="grid grid-cols-2 gap-3">
+                            <div class="pattern-item bg-gray-100 p-4 rounded-lg text-center" data-shape="circle">
+                                <div class="w-12 h-12 mx-auto mb-2 bg-gray-600 rounded-full"></div>
+                                <span class="text-xs font-medium">Lingkaran</span>
+                            </div>
+                            <div class="pattern-item bg-gray-100 p-4 rounded-lg text-center" data-shape="rectangle">
+                                <div class="w-12 h-8 mx-auto mb-2 bg-gray-600"></div>
+                                <span class="text-xs font-medium">Persegi</span>
+                            </div>
+                            <div class="pattern-item bg-gray-100 p-4 rounded-lg text-center" data-shape="triangle">
+                                <div class="w-0 h-0 mx-auto mb-2 border-l-6 border-r-6 border-b-12 border-l-transparent border-r-transparent border-b-gray-600"></div>
+                                <span class="text-xs font-medium">Segitiga</span>
+                            </div>
+                            <div class="pattern-item bg-gray-100 p-4 rounded-lg text-center" data-shape="star">
+                                <div class="w-12 h-12 mx-auto mb-2 bg-gray-600 transform rotate-45"></div>
+                                <span class="text-xs font-medium">Bintang</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tools -->
+                    <div class="mt-6 pt-4 border-t">
+                        <h3 class="text-sm font-semibold text-gray-900 mb-3">Alat</h3>
+                        <div class="space-y-2">
+                            <button id="deleteBtn" class="w-full bg-red-100 hover:bg-red-200 text-red-700 px-3 py-2 rounded-md text-sm flex items-center space-x-2">
+                                <i class="fas fa-trash"></i>
+                                <span>Hapus Terpilih</span>
+                            </button>
+                            <button id="clearBtn" class="w-full bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-2 rounded-md text-sm flex items-center space-x-2">
+                                <i class="fas fa-eraser"></i>
+                                <span>Bersihkan Canvas</span>
+                            </button>
+                            
+
+                           
+                            <a href="index.html" class="w-full inline-flex items-center gap-2 bg-[#dd9b36] text-white text-base font-semibold py-3 px-6 rounded-md hover:bg-orange-600 transition-all duration-300 shadow-lg">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16l-4-4m0 0l4-4m-4 4h16" />
+                                </svg>
+                                Kembali Ke Beranda
+                            </a>
+                        
+
+                            <div class="flex items-center space-x-2">
+                                <label class="text-xs text-gray-600">Opacity:</label>
+                                <input type="range" id="opacitySlider" min="0" max="100" value="100" class="flex-1">
+                                <span id="opacityValue" class="text-xs text-gray-600">100%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Canvas Area -->
+            <div class="lg:col-span-3">
+                <div class="bg-white rounded-lg shadow-sm border p-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 class="text-lg font-semibold text-gray-900">Desain Kamu</h2>
+                        <div class="flex items-center space-x-4">
+                            <div class="flex items-center space-x-2">
+                                <label class="text-sm text-gray-600">Warna Latar:</label>
+                                <input type="color" id="bgColor" value="#ffffff" class="w-8 h-8 rounded border">
+                            </div>
+                            <button id="previewBtn" class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg flex items-center space-x-2">
+                                <i class="fas fa-eye"></i>
+                                <span>Preview di Baju</span>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Canvas -->
+                    <div class="canvas-container bg-white">
+                        <canvas id="designCanvas" width="800" height="600"></canvas>
+                    </div>
+
+                    <!-- Canvas Info -->
+                    <div class="mt-4 text-sm text-gray-600 flex justify-between">
+                        <span>Ukuran: 800 x 600 px</span>
+                        <span id="objectCount">Objek: 0</span>
+                    </div>
+
+                     <div class="flex flex-end items-center space-x-4">
+                    <button id="uploadBtn" class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg flex items-center space-x-2">
+                        <i class="fas fa-upload"></i>
+                        <span>Upload Pola</span>
+                    </button>
+                    <button id="saveBtn" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center space-x-2">
+                        <i class="fas fa-save"></i>
+                        <span>Simpan</span>
+                    </button>
+                    <button id="exportBtn" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg flex items-center space-x-2">
+                        <i class="fas fa-download"></i>
+                        <span>Ekspor</span>
+                    </button>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Preview Modal -->
+    <div id="previewModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50">
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="bg-white rounded-lg max-w-2xl w-full p-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-lg font-semibold">Preview Desain di Baju</h3>
+                    <button id="closeModal" class="text-gray-500 hover:text-gray-700">
+                        <i class="fas fa-times text-xl"></i>
+                    </button>
+                </div>
+                <div class="relative">
+                    <div class="w-full h-96 bg-gray-100 rounded-lg flex items-center justify-center relative overflow-hidden">
+                        <!-- T-shirt mockup -->
+                        <div class="relative">
+                            <div class="w-64 h-80 bg-white rounded-t-full rounded-b-lg shadow-lg relative">
+                                <!-- T-shirt shape -->
+                                <div class="absolute top-0 left-1/2 transform -translate-x-1/2 w-48 h-12 bg-white rounded-t-full"></div>
+                                <div class="absolute top-8 left-1/2 transform -translate-x-1/2 w-32 h-8 bg-gray-200 rounded-full"></div>
+                                <!-- Design preview area -->
+                                <div id="shirtPreview" class="absolute top-16 left-1/2 transform -translate-x-1/2 w-40 h-40 bg-gray-50 rounded-lg border-2 border-dashed border-gray-300 flex items-center justify-center">
+                                    <span class="text-gray-400 text-sm">Desain Anda</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-4 flex justify-end space-x-3">
+                    <button id="downloadPreview" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg">
+                        <i class="fas fa-download mr-2"></i>Download Preview
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize Fabric.js canvas
+        const canvas = new fabric.Canvas('designCanvas', {
+            backgroundColor: '#ffffff',
+            selection: true
+        });
+
+        // Global variables
+        let objectCount = 0;
+        let batikPatterns = [];
+
+        // Default batik patterns (using placeholder images that represent batik patterns)
+        const defaultPatterns = [
+            {
+                url: 'images/1.png'
+            },
+            {
+                url: 'images/2.png'
+            },
+            {
+                url: 'images/3.png'
+            },
+            {
+                url: 'images/4.png'
+            },
+            {
+                url: 'images/5.png'
+            },
+            {
+                url: 'images/6.png'
+            },
+            {
+                url: 'images/7.png'
+            },
+            {
+                url: 'images/8.png'
+            },
+            {
+                url: 'images/9.png'
+            },
+            {
+                url: 'images/10.png'
+            },
+            {
+                url: 'images/11.png'
+            },
+            {
+                url: 'images/12.png'
+            },
+            {
+                url: 'images/13.png'
+            },
+            {
+                url: 'images/14.png'
+            },
+            {
+                url: 'images/15.png'
+            },
+            {
+                url: 'images/16.png'
+            },
+            {
+                url: 'images/17.png'
+            }
+        ];
+
+        // Initialize patterns
+        function initializePatterns() {
+            batikPatterns = [...defaultPatterns];
+            renderPatterns();
+        }
+
+        // Render patterns in the sidebar
+        function renderPatterns() {
+            const grid = document.getElementById('patternsGrid');
+            grid.innerHTML = '';
+
+            batikPatterns.forEach((pattern, index) => {
+                const patternDiv = document.createElement('div');
+                patternDiv.className = 'pattern-item bg-white p-2 rounded-lg text-center border-2 border-gray-200 hover:border-blue-300 cursor-pointer';
+                patternDiv.dataset.patternIndex = index;
+                
+                patternDiv.innerHTML = `
+                    <div class="relative">
+                        <img src="${pattern.url}" alt="${pattern.name}" class="pattern-preview mx-auto mb-2 loading-pattern" 
+                             onload="this.classList.remove('loading-pattern')" 
+                             onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjYwIiBoZWlnaHQ9IjYwIiBmaWxsPSIjRjNGNEY2Ii8+CjxwYXRoIGQ9Ik0yMCAyMEw0MCA0ME0yMCA0MEw0MCAyMCIgc3Ryb2tlPSIjOUI5QkEwIiBzdHJva2Utd2lkdGg9IjIiLz4KPC9zdmc+'; this.classList.remove('loading-pattern');">
+                        <button class="absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white rounded-full text-xs hover:bg-red-600 ${index < defaultPatterns.length ? 'hidden' : ''}" 
+                                onclick="removePattern(${index}); event.stopPropagation();">×</button>
+                    </div>
+                `;
+                
+                patternDiv.addEventListener('click', () => addPatternToCanvas(index));
+                grid.appendChild(patternDiv);
+            });
+        }
+
+        // Add pattern to canvas
+        function addPatternToCanvas(patternIndex) {
+            const pattern = batikPatterns[patternIndex];
+            if (!pattern) return;
+
+            fabric.Image.fromURL(pattern.url, (img) => {
+                // Scale the image to a reasonable size
+                const maxSize = 120;
+                const scale = Math.min(maxSize / img.width, maxSize / img.height);
+                
+                img.set({
+                    left: canvas.width / 2 - (img.width * scale) / 2,
+                    top: canvas.height / 2 - (img.height * scale) / 2,
+                    scaleX: scale,
+                    scaleY: scale,
+                    selectable: true,
+                    hasControls: true,
+                    hasBorders: true,
+                    cornerStyle: 'circle',
+                    cornerColor: '#3b82f6',
+                    borderColor: '#3b82f6',
+                    transparentCorners: false
+                });
+
+                canvas.add(img);
+                canvas.setActiveObject(img);
+                canvas.renderAll();
+                updateObjectCount();
+            }, {
+                crossOrigin: 'anonymous'
+            });
+        }
+
+        // Create basic shapes
+        function createShape(shapeType, x, y) {
+            const size = 60;
+            let shape;
+
+            switch(shapeType) {
+                case 'circle':
+                    shape = new fabric.Circle({
+                        radius: size/2,
+                        fill: '#666666',
+                        left: x,
+                        top: y
+                    });
+                    break;
+                case 'rectangle':
+                    shape = new fabric.Rect({
+                        width: size,
+                        height: size/1.5,
+                        fill: '#666666',
+                        left: x,
+                        top: y
+                    });
+                    break;
+                case 'triangle':
+                    shape = new fabric.Triangle({
+                        width: size,
+                        height: size,
+                        fill: '#666666',
+                        left: x,
+                        top: y
+                    });
+                    break;
+                case 'star':
+                    shape = new fabric.Rect({
+                        width: size/1.5,
+                        height: size/1.5,
+                        fill: '#666666',
+                        left: x,
+                        top: y,
+                        angle: 45
+                    });
+                    break;
+                default:
+                    shape = new fabric.Circle({
+                        radius: size/2,
+                        fill: '#666666',
+                        left: x,
+                        top: y
+                    });
+            }
+
+            return shape;
+        }
+
+        // Upload custom pattern
+        function uploadPattern() {
+            const input = document.getElementById('fileInput');
+            input.click();
+        }
+
+        // Handle file upload
+        document.getElementById('fileInput').addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            if (!file.type.startsWith('image/')) {
+                alert('Silakan pilih file gambar yang valid.');
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                const img = new Image();
+                img.onload = () => {
+                    // Add to patterns library
+                    const newPattern = {
+                        name: file.name.split('.')[0] || 'Custom Pattern',
+                        url: event.target.result
+                    };
+                    
+                    batikPatterns.push(newPattern);
+                    renderPatterns();
+                };
+                img.src = event.target.result;
+            };
+            reader.readAsDataURL(file);
+        });
+
+        // Remove pattern
+        function removePattern(index) {
+            if (index < defaultPatterns.length) return; // Can't remove default patterns
+            batikPatterns.splice(index, 1);
+            renderPatterns();
+        }
+
+        // Tab switching
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const tabName = btn.dataset.tab;
+                
+                // Update active tab button
+                document.querySelectorAll('.tab-btn').forEach(b => {
+                    b.classList.remove('active-tool');
+                    b.classList.add('bg-gray-100');
+                });
+                btn.classList.add('active-tool');
+                btn.classList.remove('bg-gray-100');
+                
+                // Show/hide tab content
+                document.querySelectorAll('.tab-content').forEach(content => {
+                    content.classList.add('hidden');
+                });
+                document.getElementById(tabName + '-tab').classList.remove('hidden');
+            });
+        });
+
+        // Add drag and drop for shapes
+        document.querySelectorAll('[data-shape]').forEach(item => {
+            item.addEventListener('click', (e) => {
+                const shapeType = item.dataset.shape;
+                
+                // Add to center of canvas
+                const centerX = canvas.width / 2 - 30;
+                const centerY = canvas.height / 2 - 30;
+                
+                const newObject = createShape(shapeType, centerX, centerY);
+                
+                if (newObject) {
+                    canvas.add(newObject);
+                    canvas.setActiveObject(newObject);
+                    updateObjectCount();
+                }
+            });
+        });
+
+        // Background color change
+        document.getElementById('bgColor').addEventListener('change', (e) => {
+            canvas.setBackgroundColor(e.target.value, canvas.renderAll.bind(canvas));
+        });
+
+        // Opacity slider
+        document.getElementById('opacitySlider').addEventListener('input', (e) => {
+            const opacity = e.target.value / 100;
+            document.getElementById('opacityValue').textContent = e.target.value + '%';
+            
+            const activeObject = canvas.getActiveObject();
+            if (activeObject) {
+                activeObject.set('opacity', opacity);
+                canvas.renderAll();
+            }
+        });
+
+        // Update opacity slider when object is selected
+        canvas.on('selection:created', (e) => {
+            const activeObject = e.selected[0];
+            if (activeObject) {
+                const opacity = Math.round((activeObject.opacity || 1) * 100);
+                document.getElementById('opacitySlider').value = opacity;
+                document.getElementById('opacityValue').textContent = opacity + '%';
+            }
+        });
+
+        canvas.on('selection:updated', (e) => {
+            const activeObject = e.selected[0];
+            if (activeObject) {
+                const opacity = Math.round((activeObject.opacity || 1) * 100);
+                document.getElementById('opacitySlider').value = opacity;
+                document.getElementById('opacityValue').textContent = opacity + '%';
+            }
+        });
+
+        // Delete selected object
+        document.getElementById('deleteBtn').addEventListener('click', () => {
+            const activeObject = canvas.getActiveObject();
+            if (activeObject) {
+                canvas.remove(activeObject);
+                updateObjectCount();
+            }
+        });
+
+        // Clear canvas
+        document.getElementById('clearBtn').addEventListener('click', () => {
+            if (confirm('Apakah Anda yakin ingin menghapus semua objek?')) {
+                canvas.clear();
+                canvas.setBackgroundColor('#ffffff', canvas.renderAll.bind(canvas));
+                updateObjectCount();
+            }
+        });
+
+        // Upload button
+        document.getElementById('uploadBtn').addEventListener('click', uploadPattern);
+        document.getElementById('addPatternBtn').addEventListener('click', uploadPattern);
+
+        // Save design
+        document.getElementById('saveBtn').addEventListener('click', () => {
+            const dataURL = canvas.toDataURL('image/png');
+            const link = document.createElement('a');
+            link.download = 'desain-batik-' + Date.now() + '.png';
+            link.href = dataURL;
+            link.click();
+        });
+
+        // Export design
+        document.getElementById('exportBtn').addEventListener('click', () => {
+            const dataURL = canvas.toDataURL('image/png', 1.0);
+            const link = document.createElement('a');
+            link.download = 'batik-design-export-' + Date.now() + '.png';
+            link.href = dataURL;
+            link.click();
+        });
+
+        // Preview modal
+        document.getElementById('previewBtn').addEventListener('click', () => {
+            const modal = document.getElementById('previewModal');
+            const preview = document.getElementById('shirtPreview');
+            
+            // Get canvas as image
+            const dataURL = canvas.toDataURL('image/png');
+            preview.innerHTML = `<img src="${dataURL}" class="max-w-full max-h-full object-contain rounded">`;
+            
+            modal.classList.remove('hidden');
+        });
+
+        document.getElementById('closeModal').addEventListener('click', () => {
+            document.getElementById('previewModal').classList.add('hidden');
+        });
+
+        document.getElementById('downloadPreview').addEventListener('click', () => {
+            // Create a composite image with t-shirt and design
+            const tempCanvas = document.createElement('canvas');
+            const ctx = tempCanvas.getContext('2d');
+            tempCanvas.width = 400;
+            tempCanvas.height = 500;
+            
+            // Draw t-shirt background
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(0, 0, 400, 500);
+            
+            // Draw design
+            const designImg = new Image();
+            designImg.crossOrigin = 'anonymous';
+            designImg.onload = function() {
+                ctx.drawImage(designImg, 100, 150, 200, 150);
+                
+                // Download
+                const link = document.createElement('a');
+                link.download = 'batik-shirt-preview-' + Date.now() + '.png';
+                link.href = tempCanvas.toDataURL();
+                link.click();
+            };
+            designImg.src = canvas.toDataURL();
+        });
+
+        // Update object count
+        function updateObjectCount() {
+            objectCount = canvas.getObjects().length;
+            document.getElementById('objectCount').textContent = `Objek: ${objectCount}`;
+        }
+
+        // Canvas event listeners
+        canvas.on('object:added', updateObjectCount);
+        canvas.on('object:removed', updateObjectCount);
+
+        // Close modal when clicking outside
+        document.getElementById('previewModal').addEventListener('click', (e) => {
+            if (e.target.id === 'previewModal') {
+                document.getElementById('previewModal').classList.add('hidden');
+            }
+        });
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Delete' || e.key === 'Backspace') {
+                const activeObject = canvas.getActiveObject();
+                if (activeObject && document.activeElement.tagName !== 'INPUT') {
+                    canvas.remove(activeObject);
+                    updateObjectCount();
+                    e.preventDefault();
+                }
+            }
+        });
+
+        // Initialize
+        initializePatterns();
+        updateObjectCount();
+    </script>
+</body>
+</html>

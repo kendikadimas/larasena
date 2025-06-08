@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Larasena</title>
+      <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="images/bluk1.svg" />
+    <link rel="stylesheet" href="./output.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #FFFFFF; 
+        }
+        
+        .font-display {
+            font-family: 'Merriweather', serif;
+        }
+
+        input[type=search]::-webkit-search-decoration,
+        input[type=search]::-webkit-search-cancel-button,
+        input[type=search]::-webkit-search-results-button,
+        input[type=search]::-webkit-search-results-decoration {
+            -webkit-appearance:none;
+        }
+    </style>
+
+<body>
+    
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+        
+      <!-- Header / Navbar -->
+<header class="py-5">
+    <div class="max-w-8xl mx-auto px-4">
+        <nav class="flex justify-between items-center">
+            <!-- Logo -->
+            <a href="#" class="flex items-center gap-2">
+                <img src="./images/bluk1.svg" alt="Logo Larasena" class="h-8 w-auto">
+                <span class="font-display text-2xl font-bold text-[#7d4717]">Larasena</span>
+            </a>
+
+            <!-- Navigation Links (Desktop) -->
+            <ul class="hidden lg:flex items-center space-x-8">
+                <li>
+                    <a href="index.html" class="text-[#4F382B] hover:text-[#7d4717] hover:font-bold transition-colors duration-300 border-b-2 border-transparent hover:border-[#7d4717] pb-1">Beranda</a>
+                </li>
+                <li>
+                    <a href="produk.html" class="text-[#4F382B] font-bold text-[#7d4717] border-b-2 border-[#7d4717] pb-1 transition-colors duration-300">Produk</a>
+                </li>
+                <li>
+                    <a href="artikel.html" class="text-[#4F382B] hover:text-[#7d4717] hover:font-bold transition-colors duration-300 border-b-2 border-transparent hover:border-[#7d4717] pb-1">Artikel</a>
+                </li>
+                <li>
+                    <a href="tentang.html" class="text-[#4F382B] hover:text-[#7d4717] hover:font-bold transition-colors duration-300 border-b-2 border-transparent hover:border-[#7d4717] pb-1">Tentang</a>
+                </li>
+            </ul>
+
+            <!-- Icons (Desktop) -->
+            <div class="hidden lg:flex items-center space-x-4">
+                <a href="#" class="text-[#4F382B] hover:text-[#7d4717] transition-colors duration-300">
+                    <img src="./images/Group.svg" alt="keranjang">
+                </a>
+                <a href="#" class="text-[#4F382B] hover:text-[#7d4717] transition-colors duration-300">
+                    <img src="./images/Group (1).svg" alt="profile">
+                </a>
+            </div>
+
+            <!-- Mobile Menu Button -->
+            <div class="lg:hidden">
+                <button id="mobile-menu-button" class="text-[#4F382B] focus:outline-none">
+                    <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                    </svg>
+                </button>
+            </div>
+        </nav>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden lg:hidden mt-4">
+            <ul class="flex flex-col space-y-3">
+                <li>
+                    <a href="index.html" class="block text-center py-2 text-[#4F382B] hover:text-[#7d4717] hover:font-bold hover:bg-gray-100 rounded-md">Beranda</a>
+                </li>
+                <li>
+                    <a href="produk.html" class="block text-center py-2 font-bold text-[#7d4717] hover:text-[#7d4717] hover:font-bold hover:bg-gray-100 rounded-md">Produk</a>
+                </li>
+                <li>
+                    <a href="artikel.html" class="block text-center py-2 text-[#4F382B] hover:text-[#7d4717] hover:font-bold hover:bg-gray-100 rounded-md">Artikel</a>
+                </li>
+                <li>
+                    <a href="tentang.html" class="block text-center py-2 text-[#4F382B] hover:text-[#7d4717] hover:font-bold hover:bg-gray-100 rounded-md">Tentang Kami</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</header>
+
+
+        
+        <!-- Hero Section -->
+        <main class="mt-4">
+           <!-- Hero Section Container -->
+            <div class="relative max-w-8xl mx-auto px-4 lg:min-h-[70vh] rounded-2xl overflow-hidden">
+                <!-- Gambar Hero (layer 1) -->
+                <div id="hero1" class="absolute inset-0 bg-cover bg-center transition-opacity duration-1000 opacity-100"
+                    style="background-image: url('./images/diskon1.png');">
+                </div>
+
+                <!-- Gambar Hero (layer 2) -->
+                <div id="hero2" class="absolute inset-0 bg-cover bg-center transition-opacity duration-1000 opacity-0"
+                    style="background-image: url('./images/Larasena2.png');">
+                </div>
+            </div>
+
+<!-- Search Bar with Category Filter (Enhanced Styling) -->
+<div class="w-full lg:w-3/4 mx-auto -mt-8 relative z-10">
+    <div class="flex flex-col md:flex-row bg-white shadow-xl rounded-2xl overflow-hidden border border-gray-200">
+
+        <!-- Dropdown Kategori -->
+        <select 
+            class="md:w-1/4 w-full bg-gray-100 text-gray-700 font-medium py-4 px-4 border-b md:border-b-0 md:border-r border-gray-200 focus:outline-none focus:ring-2 focus:ring-amber-800/50 transition duration-200 ease-in-out">
+            <option value="">Semua Kategori</option>
+            <option value="tradisional">Batik Tradisional</option>
+            <option value="moderen">Batik Moderen</option>
+            <option value="teknologi">Batik Teknologi</option>
+            <option value="pendidikan">Batik Pendidikan</option>
+            <option value="musik">Batik Musik</option>
+        </select>
+
+        <!-- Input Search -->
+        <div class="relative flex-grow">
+            <input 
+                type="search" 
+                placeholder="Cari produk, kategori, atau brand..."
+                class="w-full py-4 px-6 text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-amber-800/50 font-medium transition duration-200 ease-in-out"
+            >
+            <button 
+                class="absolute inset-y-0 right-0 flex items-center pr-6 text-gray-500 hover:text-amber-800 transition duration-200 ease-in-out">
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" 
+                     viewBox="0 0 24 24" fill="none" stroke="currentColor" 
+                     stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
+            </button>
+        </div>
+
+    </div>
+</div>
+
+
+        <!-- JavaScript Fade Switcher -->
+        <script>
+            const hero1 = document.getElementById("hero1");
+            const hero2 = document.getElementById("hero2");
+            const images = [
+                "./images/diskon1.png",
+                "./images/diskon2.png",
+                "./images/diskon3.png"
+            ];
+
+            let current = 0;
+            let showingFirst = true;
+
+            setInterval(() => {
+                current = (current + 1) % images.length;
+                if (showingFirst) {
+                    hero2.style.backgroundImage = `url('${images[current]}')`;
+                    hero2.classList.add('opacity-100');
+                    hero1.classList.remove('opacity-100');
+                    hero1.classList.add('opacity-0');
+                } else {
+                    hero1.style.backgroundImage = `url('${images[current]}')`;
+                    hero1.classList.add('opacity-100');
+                    hero2.classList.remove('opacity-100');
+                    hero2.classList.add('opacity-0');
+                }
+                showingFirst = !showingFirst;
+            }, 5000); // Ganti gambar setiap 5 detik
+        </script>
+        </main>
+
+
+
+
+
+        
+ <!-- Section Kategori Batik -->
+<section class="py-8 bg-white text-center">
+  <div class="max-w-8xl mx-auto px-4">
+    <!-- Judul -->
+    <p class="text-sm uppercase text-amber-800 font-semibold mb-2">Kategori Batik Kami</p>
+    <h2 class="text-3xl font-bold mb-4">Eksplorasi Kategori Batik Unggulan</h2>
+    <p class="text-gray-600 mb-10 max-w-2xl mx-auto">
+      Temukan berbagai kategori batik yang telah kami kembangkan dengan sentuhan khas dan material berkualitas tinggi.
+    </p>
+
+    <!-- Kategori Grid -->
+    <div class="w-full lg:w-3/4 mx-auto flex flex-wrap justify-center gap-8">
+      <!-- Kategori 1 -->
+      <div class="flex flex-col items-center">
+        <img src="./images/batikategori1.png" alt="Batik Tradisional" class="rounded-full w-44 h-44 object-cover border-4 border-gray-100 shadow-md">
+        <p class="mt-4 text-gray-700 font-medium text-lg">Tradisional</p>
+      </div>
+
+      <!-- Kategori 2 -->
+      <div class="flex flex-col items-center">
+        <img src="./images/batikategori2.png" alt="Batik Modern" class="rounded-full w-44 h-44 object-cover border-4 border-gray-100 shadow-md">
+        <p class="mt-4 text-gray-700 font-medium text-lg">Modern</p>
+      </div>
+
+      <!-- Kategori 3 -->
+      <div class="flex flex-col items-center">
+        <img src="./images/batikategori3.png" alt="Batik Teknologi" class="rounded-full w-44 h-44 object-cover border-4 border-gray-100 shadow-md">
+        <p class="mt-4 text-gray-700 font-medium text-lg">Teknologi</p>
+      </div>
+
+      <!-- Kategori 4 -->
+      <div class="flex flex-col items-center">
+        <img src="./images/batikategori4.png" alt="Batik Pendidikan" class="rounded-full w-44 h-44 object-cover border-4 border-gray-100 shadow-md">
+        <p class="mt-4 text-gray-700 font-medium text-lg">Pendidikan</p>
+      </div>
+
+      <!-- Kategori 5 -->
+      <div class="flex flex-col items-center">
+        <img src="./images/batikategori5.png" alt="Batik Musik" class="rounded-full w-44 h-44 object-cover border-4 border-gray-100 shadow-md">
+        <p class="mt-4 text-gray-700 font-medium text-lg">Musik</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+
+
+
+
+
+
+<!-- Section: Best Seller Batik Larasena -->
+<section class="bg-white py-12">
+  <div class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
+
+    <div class="text-center mb-10">
+      <p class="text-sm uppercase text-amber-800 font-semibold mb-2">Best Seller Batik</p>
+      <h2 class="mt-2 text-3xl md:text-4xl font-bold text-gray-900 tracking-tight">Produk Batik Terlaris</h2>
+      <p class="mt-4 max-w-2xl mx-auto text-base text-gray-600">
+        Temukan pilihan batik favorit pelanggan kami. Koleksi batik tulis dan cap berkualitas tinggi yang paling diminati di Larasena.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+      <!-- Produk Card 1 -->
+      <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-shadow">
+        <img class="h-56 w-full object-cover" src="images/batikcor.jpg" alt="Batik Tulis Premium">
+        <div class="p-4">
+          <h3 class="text-lg font-semibold text-gray-900">Batik Tulis Premium</h3>
+          <p class="text-sm text-gray-600 mt-1 mb-2">Motif klasik elegan, proses tulis manual.</p>
+          <p class="text-lg font-bold text-red-800">Rp 1.250.000</p>
+        </div>
+      </div>
+
+      <!-- Produk Card 2 -->
+      <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-shadow">
+        <img class="h-56 w-full object-cover" src="images/gambat1.jpg" alt="Batik Cap Motif Parang">
+        <div class="p-4">
+          <h3 class="text-lg font-semibold text-gray-900">Batik Cap Motif Parang</h3>
+          <p class="text-sm text-gray-600 mt-1 mb-2">Motif tradisional parang, teknik cap modern.</p>
+          <p class="text-lg font-bold text-red-800">Rp 650.000</p>
+        </div>
+      </div>
+
+      <!-- Produk Card 3 -->
+      <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-shadow">
+        <img class="h-56 w-full object-cover" src="images/finbat.jpg" alt="Selendang Batik Elegan">
+        <div class="p-4">
+          <h3 class="text-lg font-semibold text-gray-900">Selendang Batik Elegan</h3>
+          <p class="text-sm text-gray-600 mt-1 mb-2">Cocok untuk acara formal & kasual.</p>
+          <p class="text-lg font-bold text-red-800">Rp 450.000</p>
+        </div>
+      </div>
+
+      <!-- Produk Card 4 -->
+      <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-shadow">
+        <img class="h-56 w-full object-cover" src="images/warbat.jpg" alt="Kemeja Batik Modern">
+        <div class="p-4">
+          <h3 class="text-lg font-semibold text-gray-900">Kemeja Batik Modern</h3>
+          <p class="text-sm text-gray-600 mt-1 mb-2">Desain kekinian, bahan nyaman dipakai.</p>
+          <p class="text-lg font-bold text-red-800">Rp 550.000</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- Produk -->
+ <!-- Section: Produk Batik Terlaris -->
+<section class="bg-white py-16">
+  <div class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
+
+    <!-- Heading -->
+    <div class="text-center mb-10">
+      <p class="text-sm uppercase text-amber-800 font-semibold mb-2">Produk Batik Kami</p>
+      <h2 class="mt-2 text-3xl md:text-4xl font-bold text-gray-900 tracking-tight">Temukan Batik Pilihan Anda</h2>
+      <p class="mt-4 max-w-2xl mx-auto text-base text-gray-600">
+        Jelajahi koleksi batik eksklusif Larasena. Berbagai motif khas Indonesia dengan kualitas terbaik untuk berbagai kesempatan.
+      </p>
+    </div>
+
+    <!-- Produk Grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+
+      <!-- Produk Item 1 -->
+      <div class="border rounded-lg overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-300">
+        <div class="relative">
+          <img src="images/batik1.jpg" alt="Batik Tulis Kawung" class="w-full h-64 object-cover">
+          <span class="absolute top-2 left-2 bg-red-500 text-white text-xs px-2 py-1 rounded">20%</span>
+        </div>
+        <div class="p-4">
+          <h3 class="font-semibold text-lg text-gray-800 mb-2">Batik Tulis Kawung</h3>
+          <div class="flex items-center justify-between mb-4">
+            <span class="line-through text-sm text-gray-400">Rp750.000</span>
+            <span class="text-amber-600 font-bold">Rp600.000</span>
+          </div>
+          <button class="w-full bg-amber-500 text-white py-2 rounded hover:bg-amber-600 transition-colors">Tambah ke Keranjang</button>
+        </div>
+      </div>
+
+      <!-- Produk Item 2 -->
+      <div class="border rounded-lg overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-300">
+        <div class="relative">
+          <img src="images/batik2.jpg" alt="Batik Parang Barong" class="w-full h-64 object-cover">
+          <span class="absolute top-2 left-2 bg-red-500 text-white text-xs px-2 py-1 rounded">15%</span>
+        </div>
+        <div class="p-4">
+          <h3 class="font-semibold text-lg text-gray-800 mb-2">Batik Parang Barong</h3>
+          <div class="flex items-center justify-between mb-4">
+            <span class="line-through text-sm text-gray-400">Rp680.000</span>
+            <span class="text-amber-600 font-bold">Rp578.000</span>
+          </div>
+          <button class="w-full bg-amber-500 text-white py-2 rounded hover:bg-amber-600 transition-colors">Tambah ke Keranjang</button>
+        </div>
+      </div>
+
+      <!-- Produk Item 3 -->
+      <div class="border rounded-lg overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-300">
+        <div class="relative">
+          <img src="images/batik3.jpg" alt="Batik Mega Mendung" class="w-full h-64 object-cover">
+        </div>
+        <div class="p-4">
+          <h3 class="font-semibold text-lg text-gray-800 mb-2">Batik Mega Mendung</h3>
+          <div class="flex items-center justify-between mb-4">
+            <span class="line-through text-sm text-gray-400">Rp620.000</span>
+            <span class="text-amber-600 font-bold">Rp620.000</span>
+          </div>
+          <button class="w-full bg-amber-500 text-white py-2 rounded hover:bg-amber-600 transition-colors">Tambah ke Keranjang</button>
+        </div>
+      </div>
+
+      <!-- Produk Item 4 -->
+      <div class="border rounded-lg overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-300">
+        <div class="relative">
+          <img src="images/batik4.jpg" alt="Batik Sekar Jagad" class="w-full h-64 object-cover">
+          <span class="absolute top-2 left-2 bg-red-500 text-white text-xs px-2 py-1 rounded">10%</span>
+        </div>
+        <div class="p-4">
+          <h3 class="font-semibold text-lg text-gray-800 mb-2">Batik Sekar Jagad</h3>
+          <div class="flex items-center justify-between mb-4">
+            <span class="line-through text-sm text-gray-400">Rp700.000</span>
+            <span class="text-amber-600 font-bold">Rp630.000</span>
+          </div>
+          <button class="w-full bg-amber-500 text-white py-2 rounded hover:bg-amber-600 transition-colors">Tambah ke Keranjang</button>
+        </div>
+      </div>
+
+      <!-- Produk Item 5 -->
+      <div class="border rounded-lg overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-300">
+        <div class="relative">
+          <img src="images/batik5.jpg" alt="Batik Truntum" class="w-full h-64 object-cover">
+        </div>
+        <div class="p-4">
+          <h3 class="font-semibold text-lg text-gray-800 mb-2">Batik Truntum</h3>
+          <div class="flex items-center justify-between mb-4">
+            <span class="line-through text-sm text-gray-400">Rp580.000</span>
+            <span class="text-amber-600 font-bold">Rp580.000</span>
+          </div>
+          <button class="w-full bg-amber-500 text-white py-2 rounded hover:bg-amber-600 transition-colors">Tambah ke Keranjang</button>
+        </div>
+      </div>
+
+      <!-- Produk Item 6 -->
+      <div class="border rounded-lg overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-300">
+        <div class="relative">
+          <img src="images/batik6.jpg" alt="Batik Lereng" class="w-full h-64 object-cover">
+          <span class="absolute top-2 left-2 bg-red-500 text-white text-xs px-2 py-1 rounded">5%</span>
+        </div>
+        <div class="p-4">
+          <h3 class="font-semibold text-lg text-gray-800 mb-2">Batik Lereng</h3>
+          <div class="flex items-center justify-between mb-4">
+            <span class="line-through text-sm text-gray-400">Rp650.000</span>
+            <span class="text-amber-600 font-bold">Rp617.500</span>
+          </div>
+          <button class="w-full bg-amber-500 text-white py-2 rounded hover:bg-amber-600 transition-colors">Tambah ke Keranjang</button>
+        </div>
+      </div>
+
+      <!-- Produk Item 7 -->
+      <div class="border rounded-lg overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-300">
+        <div class="relative">
+          <img src="images/batik7.jpg" alt="Batik Ceplok" class="w-full h-64 object-cover">
+        </div>
+        <div class="p-4">
+          <h3 class="font-semibold text-lg text-gray-800 mb-2">Batik Ceplok</h3>
+          <div class="flex items-center justify-between mb-4">
+            <span class="line-through text-sm text-gray-400">Rp600.000</span>
+            <span class="text-amber-600 font-bold">Rp600.000</span>
+          </div>
+          <button class="w-full bg-amber-500 text-white py-2 rounded hover:bg-amber-600 transition-colors">Tambah ke Keranjang</button>
+        </div>
+      </div>
+
+      <!-- Produk Item 8 -->
+      <div class="border rounded-lg overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-300">
+        <div class="relative">
+          <img src="images/batik8.jpg" alt="Batik Sidomukti" class="w-full h-64 object-cover">
+          <span class="absolute top-2 left-2 bg-red-500 text-white text-xs px-2 py-1 rounded">25%</span>
+        </div>
+        <div class="p-4">
+          <h3 class="font-semibold text-lg text-gray-800 mb-2">Batik Sidomukti</h3>
+          <div class="flex items-center justify-between mb-4">
+            <span class="line-through text-sm text-gray-400">Rp800.000</span>
+            <span class="text-amber-600 font-bold">Rp600.000</span>
+          </div>
+          <button class="w-full bg-amber-500 text-white py-2 rounded hover:bg-amber-600 transition-colors">Tambah ke Keranjang</button>
+        </div>
+      </div>
+
+      <!-- Produk Item 9 -->
+      <div class="border rounded-lg overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-300">
+        <div class="relative">
+          <img src="images/batik9.jpg" alt="Batik Sogan" class="w-full h-64 object-cover">
+        </div>
+        <div class="p-4">
+          <h3 class="font-semibold text-lg text-gray-800 mb-2">Batik Sogan</h3>
+          <div class="flex items-center justify-between mb-4">
+            <span class="line-through text-sm text-gray-400">Rp700.000</span>
+            <span class="text-amber-600 font-bold">Rp700.000</span>
+          </div>
+          <button class="w-full bg-amber-500 text-white py-2 rounded hover:bg-amber-600 transition-colors">Tambah ke Keranjang</button>
+        </div>
+      </div>
+
+      <!-- Produk Item 10 -->
+      <div class="border rounded-lg overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-300">
+        <div class="relative">
+          <img src="images/batik10.jpg" alt="Batik Garutan" class="w-full h-64 object-cover">
+        </div>
+        <div class="p-4">
+          <h3 class="font-semibold text-lg text-gray-800 mb-2">Batik Garutan</h3>
+          <div class="flex items-center justify-between mb-4">
+            <span class="line-through text-sm text-gray-400">Rp550.000</span>
+            <span class="text-amber-600 font-bold">Rp550.000</span>
+          </div>
+          <button class="w-full bg-amber-500 text-white py-2 rounded hover:bg-amber-600 transition-colors">Tambah ke Keranjang</button>
+        </div>
+      </div>
+
+      <!-- Produk Item 11 -->
+      <div class="border rounded-lg overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-300">
+        <div class="relative">
+          <img src="images/batik11.jpg" alt="Batik Lasem" class="w-full h-64 object-cover">
+        </div>
+        <div class="p-4">
+          <h3 class="font-semibold text-lg text-gray-800 mb-2">Batik Lasem</h3>
+          <div class="flex items-center justify-between mb-4">
+            <span class="line-through text-sm text-gray-400">Rp850.000</span>
+            <span class="text-amber-600 font-bold">Rp850.000</span>
+          </div>
+          <button class="w-full bg-amber-500 text-white py-2 rounded hover:bg-amber-600 transition-colors">Tambah ke Keranjang</button>
+        </div>
+      </div>
+
+      <!-- Produk Item 12 -->
+      <div class="border rounded-lg overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-300">
+        <div class="relative">
+          <img src="images/batik12.jpg" alt="Batik Gentongan Madura" class="w-full h-64 object-cover">
+          <span class="absolute top-2 left-2 bg-red-500 text-white text-xs px-2 py-1 rounded">30%</span>
+        </div>
+        <div class="p-4">
+          <h3 class="font-semibold text-lg text-gray-800 mb-2">Batik Gentongan Madura</h3>
+          <div class="flex items-center justify-between mb-4">
+            <span class="line-through text-sm text-gray-400">Rp900.000</span>
+            <span class="text-amber-600 font-bold">Rp630.000</span>
+          </div>
+          <button class="w-full bg-amber-500 text-white py-2 rounded hover:bg-amber-600 transition-colors">Tambah ke Keranjang</button>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+
+</div>
+
+
+
+
+
+
+
+
+<!-- Footer -->
+<footer class="bg-white text-gray-800 pt-12 pb-6 mt-12 border-t border-gray-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-8">
+
+        <!-- Brand & Description -->
+        <div>
+            <div class="flex items-center mb-4 space-x-3">
+                <img src="images/bluk1.svg" alt="Batik Larasena Logo" class="w-12 h-12 object-contain">
+                <h3 class="text-2xl font-bold text-[#7d4717]">Batik Larasena</h3>
+            </div>
+            <p class="text-sm leading-relaxed text-gray-600">
+                Koleksi Batik berkualitas tinggi yang memadukan keindahan budaya dengan sentuhan modern.  
+                Setiap helai Batik Larasena adalah karya seni Nusantara.
+            </p>
+        </div>
+
+        <!-- Navigation Menu -->
+        <div>
+            <h4 class="text-lg font-semibold mb-4">Navigasi</h4>
+            <ul class="space-y-2 text-sm">
+                <li><a href="#" class="hover:text-amber-700 transition">Beranda</a></li>
+                <li><a href="#" class="hover:text-amber-700 transition">Tentang Kami</a></li>
+                <li><a href="#" class="hover:text-amber-700 transition">Produk</a></li>
+                <li><a href="#" class="hover:text-amber-700 transition">Testimoni</a></li>
+                <li><a href="#" class="hover:text-amber-700 transition">Kontak</a></li>
+            </ul>
+        </div>
+
+        <!-- Produk Categories -->
+        <div>
+            <h4 class="text-lg font-semibold mb-4">Kategori Produk</h4>
+            <ul class="space-y-2 text-sm">
+                <li><a href="#" class="hover:text-amber-700 transition">Batik Tradisional</a></li>
+                <li><a href="#" class="hover:text-amber-700 transition">Batik Moderen</a></li>
+                <li><a href="#" class="hover:text-amber-700 transition">Batik Teknologi</a></li>
+                <li><a href="#" class="hover:text-amber-700 transition">Batik Pendidikan</a></li>
+                <li><a href="#" class="hover:text-amber-700 transition">Batik Musik</a></li>
+            </ul>
+        </div>
+
+        <!-- Contact Info -->
+        <div>
+            <h4 class="text-lg font-semibold mb-4">Kontak Kami</h4>
+            <ul class="space-y-2 text-sm text-gray-600">
+                <li>
+                    <span class="block">Jl. Batik Indah No. 123<br>Kota Batik, Indonesia</span>
+                </li>
+                <li>
+                    <span class="block">Email: info@batiklarasena.com</span>
+                </li>
+                <li>
+                    <span class="block">Telp: +62 812 3456 7890</span>
+                </li>
+            </ul>
+        </div>
+
+    </div>
+
+    <!-- Bottom Footer -->
+    <div class="border-t border-gray-200 mt-10 pt-6 text-center text-sm text-gray-500">
+
+        <!-- Social Media -->
+        <div class="mb-4 flex justify-center space-x-5">
+            <a href="#" class="hover:text-amber-700 transition" aria-label="Instagram">
+                <i class="fab fa-instagram fa-lg"></i>
+            </a>
+            <a href="#" class="hover:text-amber-700 transition" aria-label="Facebook">
+                <i class="fab fa-facebook fa-lg"></i>
+            </a>
+            <a href="#" class="hover:text-amber-700 transition" aria-label="WhatsApp">
+                <i class="fab fa-whatsapp fa-lg"></i>
+            </a>
+            <a href="#" class="hover:text-amber-700 transition" aria-label="TikTok">
+                <i class="fab fa-tiktok fa-lg"></i>
+            </a>
+        </div>
+
+        <!-- Copyright -->
+        &copy; 2025 <span class="text-[#7d4717] font-semibold">Batik Larasena</span>. All rights reserved.
+
+    </div>
+</footer>
+
+
+
+
+
+
+    <script>
+        // JavaScript untuk handle mobile menu toggle
+        document.addEventListener('DOMContentLoaded', () => {
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+        });
+    </script>
+
+</body>
+</html>
