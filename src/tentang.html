@@ -4,17 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Larasena</title>
-      <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="images/bluk1.svg" />
-    <link rel="stylesheet" href="./output.css">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-</head>
-
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Merriweather:wght@700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
     <style>
         body {
+            /* Menggunakan font Poppins yang sudah diimpor */
             font-family: 'Poppins', sans-serif;
             background-color: #FFFFFF; 
         }
@@ -29,258 +28,404 @@
         input[type=search]::-webkit-search-results-decoration {
             -webkit-appearance:none;
         }
+
+        .faq-container {
+            position: relative;
+            background: #fff;
+            margin-top: 50px;
+            margin-bottom: 30px;
+            border-radius: 10px;
+            padding-bottom: 2rem;
+        }
+
+        .faq-accordion {
+            position: relative;
+            width: 90%;
+            margin: 0 auto;
+        }
+
+        .faq-title {
+            margin-top: 2rem;
+            margin-bottom: 2rem;
+            font-size: 2rem;
+            text-align: center;
+        }
+
+        .content-accordion {
+            margin-top: 2rem;
+        }
+
+        .question-answer {
+            width: 100%;
+            border-bottom: 1px solid #e8e8e8;
+        }
+
+        .question {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer; /* Menambahkan cursor pointer pada seluruh area pertanyaan */
+        }
+        
+        .accordion-img-container {
+            display: none; /* Sembunyikan gambar di layar kecil */
+        }
+
+        .title-question {
+            margin: 1.4rem 0rem;
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: #000;
+        }
+
+        .question-btn {
+            font-size: 1.2rem;
+            background: transparent;
+            border-color: transparent;
+            cursor: pointer;
+            color: #4F382B;
+            /* Tombol ini tidak lagi esensial untuk diklik, tapi kita biarkan stylenya */
+        }
+
+        .up-icon {
+            display: none;
+        }
+
+        .answer {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            display: none;
+            padding-bottom: 1rem;
+            color: #333; /* Memberi warna pada teks jawaban agar lebih mudah dibaca */
+        }
+
+        /* Logika untuk menampilkan jawaban dan ikon */
+        .show-text .answer {
+            display: block;
+        }
+
+        .show-text .up-icon {
+            display: inline;
+        }
+
+        .show-text .down-icon {
+            display: none;
+        }
+
+        @media screen and (min-width: 992px) {
+            .faq-accordion {
+                width: 920px;
+                display: flex;
+                gap: 2rem;
+                padding-top: 2rem;
+            }
+
+            .accordion-img-container {
+                display: block; /* Tampilkan gambar di layar besar */
+                position: relative;
+                width: 420px;
+            }
+            
+            .accordion-img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                border-radius: 10px;
+            }
+
+            .question-answer {
+                width: 100%;
+            }
+            .content-accordion {
+                flex: 1;
+                margin-top: 0;
+            }
+
+            .faq-title {
+                font-size: 3rem;
+            }
+        }
     </style>
 
+</head>
 <body>
     
     <div class="container mx-auto px-4 sm:px-6 lg:px-8">
         
-      <!-- Header / Navbar -->
-<!-- Header / Navbar -->
-<header class="py-5">
-    <div class="max-w-8xl mx-auto px-4">
-        <nav class="flex justify-between items-center">
-            <!-- Logo -->
-            <a href="#" class="flex items-center gap-2">
-                <img src="./images/bluk1.svg" alt="Logo Larasena" class="h-8 w-auto">
-                <span class="font-display text-2xl font-bold text-[#7d4717]">Larasena</span>
-            </a>
+        <header class="py-5">
+            <div class="max-w-8xl mx-auto px-4">
+                <nav class="flex justify-between items-center">
+                    <a href="#" class="flex items-center gap-2">
+                        <img src="./images/bluk1.svg" alt="Logo Larasena" class="h-8 w-auto">
+                        <span class="font-display text-2xl font-bold text-[#7d4717]">Larasena</span>
+                    </a>
 
-            <!-- Navigation Links (Desktop) -->
-            <ul class="hidden lg:flex items-center space-x-8">
-                <li>
-                    <a href="index.html" class="text-[#4F382B] hover:text-[#7d4717] hover:font-bold transition-colors duration-300 border-b-2 border-transparent hover:border-[#7d4717] pb-1">Beranda</a>
-                </li>
-                <li>
-                    <a href="produk.html" class="text-[#4F382B] hover:text-[#7d4717] hover:font-bold transition-colors duration-300 border-b-2 border-transparent hover:border-[#7d4717] pb-1">Produk</a>
-                </li>
-                <li>
-                    <a href="artikel.html" class="text-[#4F382B] hover:text-[#7d4717] hover:font-bold transition-colors duration-300 border-b-2 border-transparent hover:border-[#7d4717] pb-1">Artikel</a>
-                </li>
-                <li>
-                    <a href="tentang.html" class="text-[#4F382B] font-bold text-[#7d4717] border-b-2 border-[#7d4717] pb-1 transition-colors duration-300">Tentang</a>
-                </li>
-            </ul>
+                    <ul class="hidden lg:flex items-center space-x-8">
+                        <li>
+                            <a href="index.html" class="text-[#4F382B] hover:text-[#7d4717] hover:font-bold transition-colors duration-300 border-b-2 border-transparent hover:border-[#7d4717] pb-1">Beranda</a>
+                        </li>
+                        <li>
+                            <a href="produk.html" class="text-[#4F382B] hover:text-[#7d4717] hover:font-bold transition-colors duration-300 border-b-2 border-transparent hover:border-[#7d4717] pb-1">Produk</a>
+                        </li>
+                        <li>
+                            <a href="artikel.html" class="text-[#4F382B] hover:text-[#7d4717] hover:font-bold transition-colors duration-300 border-b-2 border-transparent hover:border-[#7d4717] pb-1">Artikel</a>
+                        </li>
+                        <li>
+                            <a href="tentang.html" class="text-[#4F382B] font-bold text-[#7d4717] border-b-2 border-[#7d4717] pb-1 transition-colors duration-300">Tentang</a>
+                        </li>
+                    </ul>
 
-            <!-- Icons (Desktop) -->
-            <div class="hidden lg:flex items-center space-x-4">
-                <a href="#" class="text-[#4F382B] hover:text-[#7d4717] transition-colors duration-300">
-                    <img src="./images/Group.svg" alt="keranjang">
-                </a>
-                <a href="#" class="text-[#4F382B] hover:text-[#7d4717] transition-colors duration-300">
-                    <img src="./images/Group (1).svg" alt="profile">
-                </a>
+                    <div class="hidden lg:flex items-center space-x-4">
+                        <a href="#" class="text-[#4F382B] hover:text-[#7d4717] transition-colors duration-300">
+                            <img src="./images/Group.svg" alt="keranjang">
+                        </a>
+                        <a href="#" class="text-[#4F382B] hover:text-[#7d4717] transition-colors duration-300">
+                            <img src="./images/Group (1).svg" alt="profile">
+                        </a>
+                    </div>
+
+                    <div class="lg:hidden">
+                        <button id="mobile-menu-button" class="text-[#4F382B] focus:outline-none">
+                            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </nav>
+
+                <div id="mobile-menu" class="hidden lg:hidden mt-4">
+                    <ul class="flex flex-col space-y-3">
+                        <li><a href="index.html" class="block text-center py-2 text-[#4F382B] hover:text-[#7d4717] hover:font-bold hover:bg-gray-100 rounded-md">Beranda</a></li>
+                        <li><a href="produk.html" class="block text-center py-2 text-[#4F382B] hover:text-[#7d4717] hover:font-bold hover:bg-gray-100 rounded-md">Produk</a></li>
+                        <li><a href="artikel.html" class="block text-center py-2 text-[#4F382B] hover:text-[#7d4717] hover:font-bold hover:bg-gray-100 rounded-md">Artikel</a></li>
+                        <li><a href="tentang.html" class="block text-center py-2 font-bold text-[#7d4717] hover:text-[#7d4717] hover:font-bold hover:bg-gray-100 rounded-md">Tentang Kami</a></li>
+                    </ul>
+                </div>
             </div>
+        </header>
 
-            <!-- Mobile Menu Button -->
-            <div class="lg:hidden">
-                <button id="mobile-menu-button" class="text-[#4F382B] focus:outline-none">
-                    <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
-                    </svg>
-                </button>
+        <section id="tentang-kami" class="py-12 font-poppins">
+            <div class="max-w-8xl mx-auto px-4">
+                <div class="text-center mb-12">
+                    <h2 class="text-4xl font-bold text-[#4F382B] mb-2">Tentang Larasena</h2>
+                    <p class="text-gray-600 text-lg">Menghadirkan Jiwa Batik ke Panggung Dunia</p>
+                </div>
+
+                <div class="flex flex-col lg:flex-row items-center gap-10 mb-20">
+                    <div class="w-full lg:w-1/2">
+                        <img src="images/aboutimg.jpg" alt="Proses membatik" class="rounded-xl shadow-lg w-full h-auto object-cover">
+                    </div>
+
+                    <div class="w-full lg:w-1/2 text-gray-700 leading-relaxed">
+                        <h3 class="text-2xl font-bold text-[#4F382B] mb-4">Filosofi Kami</h3>
+                        <p class="mb-4">
+                            Larasena lahir dari kecintaan yang mendalam terhadap batik, sebuah warisan agung yang menyimpan ribuan cerita dan filosofi dalam setiap goresan cantingnya. Kami percaya bahwa batik bukan sekadar kain, melainkan sebuah kanvas budaya yang hidup, bernapas, dan terus berevolusi.
+                        </p>
+                        <p>
+                            Nama "Larasena" sendiri merupakan gabungan dari kata <em>'Laras'</em> yang berarti harmonis atau selaras, dan <em>'Sena'</em> yang berarti kilau atau cahaya. Dengan nama ini, kami bercita-cita untuk menyelaraskan keindahan tradisi batik dengan gemerlap dunia modern, menghadirkannya sebagai sebuah karya yang relevan dan dicintai oleh semua generasi.
+                        </p>
+                    </div>
+                </div>
+
+                <div>
+                    <h3 class="text-3xl font-bold text-center text-[#4F382B] mb-10">Misi Kami</h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+                        <div class="bg-[#4F382B] rounded-xl shadow-lg p-6 text-white hover:shadow-2xl hover:-translate-y-2 transform transition duration-300">
+                            <h4 class="font-bold text-xl mb-3 text-center">Melestarikan</h4>
+                            <p class="text-justify">
+                                Menjaga keaslian motif-motif batik klasik dan teknik pembuatannya agar tidak lekang oleh waktu.
+                            </p>
+                        </div>
+
+                        <div class="bg-[#4F382B] rounded-xl shadow-lg p-6 text-white hover:shadow-2xl hover:-translate-y-2 transform transition duration-300">
+                            <h4 class="font-bold text-xl mb-3 text-center">Memberdayakan</h4>
+                            <p class="text-justify">
+                                Bekerja sama secara adil dengan perajin lokal di seluruh nusantara untuk meningkatkan kesejahteraan mereka.
+                            </p>
+                        </div>
+
+                        <div class="bg-[#4F382B] rounded-xl shadow-lg p-6 text-white hover:shadow-2xl hover:-translate-y-2 transform transition duration-300">
+                            <h4 class="font-bold text-xl mb-3 text-center">Menginspirasi</h4>
+                            <p class="text-justify">
+                                Mengenalkan keindahan batik kepada dunia dan menginspirasi generasi baru untuk bangga akan budayanya.
+                            </p>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </nav>
-
-        <!-- Mobile Menu -->
-        <div id="mobile-menu" class="hidden lg:hidden mt-4">
-            <ul class="flex flex-col space-y-3">
-                <li>
-                    <a href="index.html" class="block text-center py-2 text-[#4F382B] hover:text-[#7d4717] hover:font-bold hover:bg-gray-100 rounded-md">Beranda</a>
-                </li>
-                <li>
-                    <a href="produk.html" class="block text-center py-2 text-[#4F382B] hover:text-[#7d4717] hover:font-bold hover:bg-gray-100 rounded-md">Produk</a>
-                </li>
-                <li>
-                    <a href="artikel.html" class="block text-center py-2 text-[#4F382B] hover:text-[#7d4717] hover:font-bold hover:bg-gray-100 rounded-md">Artikel</a>
-                </li>
-                <li>
-                    <a href="tentang.html" class="block text-center py-2 font-bold text-[#7d4717] hover:text-[#7d4717] hover:font-bold hover:bg-gray-100 rounded-md">Tentang Kami</a>
-                </li>
-            </ul>
-        </div>
+        </section>
     </div>
-</header>
 
-
-
-
-
-
-
-<section id="tentang-kami" class="py-12 font-poppins">
-    <div class="max-w-8xl mx-auto px-4">
-        <!-- Section Title -->
-        <div class="text-center mb-12">
-            <h2 class="text-4xl font-bold text-[#4F382B] mb-2">Tentang Larasena</h2>
-            <p class="text-gray-600 text-lg">Menghadirkan Jiwa Batik ke Panggung Dunia</p>
+    <section id="faq" class="py-16 sm:py-24 bg-[#F9F9F9]">
+        <div class="faq-container container mx-auto">
+            <h1 class="faq-title font-display text-4xl font-bold text-[#4F382B]">
+                Frequently Asked Questions
+            </h1>
+            <main class="faq-accordion">
+                <div class="accordion-img-container">
+                    <img src="images/mongbat1.png" alt="Ilustrasi FAQ Batik" class="accordion-img">
+                </div>
+                <div class="content-accordion">
+                    <div class="question-answer">
+                        <div class="question">
+                            <h3 class="title-question">
+                                Apa perbedaan antara Batik Tulis, Cap, dan Printing?
+                            </h3>
+                            <button class="question-btn">
+                                <span class="up-icon"><i class="fas fa-chevron-up"></i></span>
+                                <span class="down-icon"><i class="fas fa-chevron-down"></i></span>
+                            </button>
+                        </div>
+                        <div class="answer">
+                            <p>Batik Tulis dilukis tangan, sangat eksklusif. Batik Cap menggunakan stempel tembaga. Batik Printing dicetak mesin, paling terjangkau.</p>
+                        </div>
+                    </div>
+                    <div class="question-answer">
+                        <div class="question">
+                            <h3 class="title-question">
+                                Bagaimana cara merawat kain batik?
+                            </h3>
+                            <button class="question-btn">
+                                <span class="up-icon"><i class="fas fa-chevron-up"></i></span>
+                                <span class="down-icon"><i class="fas fa-chevron-down"></i></span>
+                            </button>
+                        </div>
+                        <div class="answer">
+                            <p>Cuci dengan tangan menggunakan deterjen lembut (lerak), jangan diperas, dan jemur di tempat teduh. Setrika dengan suhu rendah dan dilapisi kain.</p>
+                        </div>
+                    </div>
+                    <div class="question-answer">
+                        <div class="question">
+                            <h3 class="title-question">
+                                Apakah Larasena melayani pengiriman internasional?
+                            </h3>
+                            <button class="question-btn">
+                                <span class="up-icon"><i class="fas fa-chevron-up"></i></span>
+                                <span class="down-icon"><i class="fas fa-chevron-down"></i></span>
+                            </button>
+                        </div>
+                        <div class="answer">
+                            <p>Ya, kami dengan bangga mengirimkan keindahan batik ke seluruh dunia. Opsi dan biaya pengiriman akan tersedia saat checkout.</p>
+                        </div>
+                    </div>
+                    <div class="question-answer">
+                        <div class="question">
+                            <h3 class="title-question">
+                                Bagaimana cara menjadi mitra atau pemasok?
+                            </h3>
+                            <button class="question-btn">
+                                <span class="up-icon"><i class="fas fa-chevron-up"></i></span>
+                                <span class="down-icon"><i class="fas fa-chevron-down"></i></span>
+                            </button>
+                        </div>
+                        <div class="answer">
+                            <p>Kami sangat terbuka untuk kolaborasi. Silakan kirim profil dan portofolio Anda ke email <a href="mailto:mitra@larasena.com" class="text-amber-800 hover:underline">mitra@larasena.com</a> dan tim kami akan meninjaunya.</p>
+                        </div>
+                    </div>
+                </div>
+            </main>
         </div>
+    </section>
 
-        <!-- Story Section -->
-        <div class="flex flex-col lg:flex-row items-center gap-10 mb-20">
-            <!-- Image -->
-            <div class="w-full lg:w-1/2">
-                <img src="images/aboutimg.jpg" alt="Proses membatik" class="rounded-xl shadow-lg w-full h-auto object-cover">
-            </div>
+    <footer class="bg-white text-gray-800 pt-12 pb-6 mt-12 border-t border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-8">
 
-            <!-- Text -->
-            <div class="w-full lg:w-1/2 text-gray-700 leading-relaxed">
-                <h3 class="text-2xl font-bold text-[#4F382B] mb-4">Filosofi Kami</h3>
-                <p class="mb-4">
-                    Larasena lahir dari kecintaan yang mendalam terhadap batik, sebuah warisan agung yang menyimpan ribuan cerita dan filosofi dalam setiap goresan cantingnya. Kami percaya bahwa batik bukan sekadar kain, melainkan sebuah kanvas budaya yang hidup, bernapas, dan terus berevolusi.
+            <div>
+                <div class="flex items-center mb-4 space-x-3">
+                    <img src="images/bluk1.svg" alt="Batik Larasena Logo" class="w-12 h-12 object-contain">
+                    <h3 class="text-2xl font-bold text-[#7d4717]">Batik Larasena</h3>
+                </div>
+                <p class="text-sm leading-relaxed text-gray-600">
+                    Koleksi Batik berkualitas tinggi yang memadukan keindahan budaya dengan sentuhan modern. 
+                    Setiap helai Batik Larasena adalah karya seni Nusantara.
                 </p>
-                <p>
-                    Nama "Larasena" sendiri merupakan gabungan dari kata <em>'Laras'</em> yang berarti harmonis atau selaras, dan <em>'Sena'</em> yang berarti kilau atau cahaya. Dengan nama ini, kami bercita-cita untuk menyelaraskan keindahan tradisi batik dengan gemerlap dunia modern, menghadirkannya sebagai sebuah karya yang relevan dan dicintai oleh semua generasi.
-                </p>
+            </div>
+
+            <div>
+                <h4 class="text-lg font-semibold mb-4">Navigasi</h4>
+                <ul class="space-y-2 text-sm">
+                    <li><a href="#" class="hover:text-amber-700 transition">Beranda</a></li>
+                    <li><a href="#" class="hover:text-amber-700 transition">Tentang Kami</a></li>
+                    <li><a href="#" class="hover:text-amber-700 transition">Produk</a></li>
+                    <li><a href="#" class="hover:text-amber-700 transition">Testimoni</a></li>
+                    <li><a href="#" class="hover:text-amber-700 transition">Kontak</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="text-lg font-semibold mb-4">Kategori Produk</h4>
+                <ul class="space-y-2 text-sm">
+                    <li><a href="#" class="hover:text-amber-700 transition">Batik Tradisional</a></li>
+                    <li><a href="#" class="hover:text-amber-700 transition">Batik Moderen</a></li>
+                    <li><a href="#" class="hover:text-amber-700 transition">Batik Teknologi</a></li>
+                    <li><a href="#" class="hover:text-amber-700 transition">Batik Pendidikan</a></li>
+                    <li><a href="#" class="hover:text-amber-700 transition">Batik Musik</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="text-lg font-semibold mb-4">Kontak Kami</h4>
+                <ul class="space-y-2 text-sm text-gray-600">
+                    <li>
+                        <span class="block">Jl. Batik Indah No. 123<br>Kota Batik, Indonesia</span>
+                    </li>
+                    <li>
+                        <span class="block">Email: info@batiklarasena.com</span>
+                    </li>
+                    <li>
+                        <span class="block">Telp: +62 812 3456 7890</span>
+                    </li>
+                </ul>
             </div>
         </div>
-
-        <!-- Mission Section -->
-        <div>
-            <h3 class="text-3xl font-bold text-center text-[#4F382B] mb-10">Misi Kami</h3>
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
-                <!-- Mission Card 1 -->
-                <div class="bg-[#4F382B] rounded-xl shadow-lg p-6 text-white hover:shadow-2xl hover:-translate-y-2 transform transition duration-300">
-                    <h4 class="font-bold text-xl mb-3 text-center">Melestarikan</h4>
-                    <p class="text-justify">
-                        Menjaga keaslian motif-motif batik klasik dan teknik pembuatannya agar tidak lekang oleh waktu.
-                    </p>
-                </div>
-
-                <!-- Mission Card 2 -->
-                <div class="bg-[#4F382B] rounded-xl shadow-lg p-6 text-white hover:shadow-2xl hover:-translate-y-2 transform transition duration-300">
-                    <h4 class="font-bold text-xl mb-3 text-center">Memberdayakan</h4>
-                    <p class="text-justify">
-                        Bekerja sama secara adil dengan perajin lokal di seluruh nusantara untuk meningkatkan kesejahteraan mereka.
-                    </p>
-                </div>
-
-                <!-- Mission Card 3 -->
-                <div class="bg-[#4F382B] rounded-xl shadow-lg p-6 text-white hover:shadow-2xl hover:-translate-y-2 transform transition duration-300">
-                    <h4 class="font-bold text-xl mb-3 text-center">Menginspirasi</h4>
-                    <p class="text-justify">
-                        Mengenalkan keindahan batik kepada dunia dan menginspirasi generasi baru untuk bangga akan budayanya.
-                    </p>
-                </div>
+        
+        <div class="border-t border-gray-200 mt-10 pt-6 text-center text-sm text-gray-500">
+             <div class="mb-4 flex justify-center space-x-5">
+                <a href="#" class="hover:text-amber-700 transition" aria-label="Instagram"><i class="fab fa-instagram fa-lg"></i></a>
+                <a href="#" class="hover:text-amber-700 transition" aria-label="Facebook"><i class="fab fa-facebook fa-lg"></i></a>
+                <a href="#" class="hover:text-amber-700 transition" aria-label="WhatsApp"><i class="fab fa-whatsapp fa-lg"></i></a>
+                <a href="#" class="hover:text-amber-700 transition" aria-label="TikTok"><i class="fab fa-tiktok fa-lg"></i></a>
             </div>
+            &copy; 2025 <span class="text-[#7d4717] font-semibold">Batik Larasena</span>. All rights reserved.
         </div>
-    </div>
-</section>
-
-
-
-
-
-    
-
-</div>
-
-
-
-
-
-
-
-
-<!-- Footer -->
-<footer class="bg-white text-gray-800 pt-12 pb-6 mt-12 border-t border-gray-200">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-8">
-
-        <!-- Brand & Description -->
-        <div>
-            <div class="flex items-center mb-4 space-x-3">
-                <img src="images/bluk1.svg" alt="Batik Larasena Logo" class="w-12 h-12 object-contain">
-                <h3 class="text-2xl font-bold text-[#7d4717]">Batik Larasena</h3>
-            </div>
-            <p class="text-sm leading-relaxed text-gray-600">
-                Koleksi Batik berkualitas tinggi yang memadukan keindahan budaya dengan sentuhan modern.  
-                Setiap helai Batik Larasena adalah karya seni Nusantara.
-            </p>
-        </div>
-
-        <!-- Navigation Menu -->
-        <div>
-            <h4 class="text-lg font-semibold mb-4">Navigasi</h4>
-            <ul class="space-y-2 text-sm">
-                <li><a href="#" class="hover:text-amber-700 transition">Beranda</a></li>
-                <li><a href="#" class="hover:text-amber-700 transition">Tentang Kami</a></li>
-                <li><a href="#" class="hover:text-amber-700 transition">Produk</a></li>
-                <li><a href="#" class="hover:text-amber-700 transition">Testimoni</a></li>
-                <li><a href="#" class="hover:text-amber-700 transition">Kontak</a></li>
-            </ul>
-        </div>
-
-        <!-- Produk Categories -->
-        <div>
-            <h4 class="text-lg font-semibold mb-4">Kategori Produk</h4>
-            <ul class="space-y-2 text-sm">
-                <li><a href="#" class="hover:text-amber-700 transition">Batik Tradisional</a></li>
-                <li><a href="#" class="hover:text-amber-700 transition">Batik Moderen</a></li>
-                <li><a href="#" class="hover:text-amber-700 transition">Batik Teknologi</a></li>
-                <li><a href="#" class="hover:text-amber-700 transition">Batik Pendidikan</a></li>
-                <li><a href="#" class="hover:text-amber-700 transition">Batik Musik</a></li>
-            </ul>
-        </div>
-
-        <!-- Contact Info -->
-        <div>
-            <h4 class="text-lg font-semibold mb-4">Kontak Kami</h4>
-            <ul class="space-y-2 text-sm text-gray-600">
-                <li>
-                    <span class="block">Jl. Batik Indah No. 123<br>Kota Batik, Indonesia</span>
-                </li>
-                <li>
-                    <span class="block">Email: info@batiklarasena.com</span>
-                </li>
-                <li>
-                    <span class="block">Telp: +62 812 3456 7890</span>
-                </li>
-            </ul>
-        </div>
-
-    </div>
-
-    <!-- Bottom Footer -->
-    <div class="border-t border-gray-200 mt-10 pt-6 text-center text-sm text-gray-500">
-
-        <!-- Social Media -->
-        <div class="mb-4 flex justify-center space-x-5">
-            <a href="#" class="hover:text-amber-700 transition" aria-label="Instagram">
-                <i class="fab fa-instagram fa-lg"></i>
-            </a>
-            <a href="#" class="hover:text-amber-700 transition" aria-label="Facebook">
-                <i class="fab fa-facebook fa-lg"></i>
-            </a>
-            <a href="#" class="hover:text-amber-700 transition" aria-label="WhatsApp">
-                <i class="fab fa-whatsapp fa-lg"></i>
-            </a>
-            <a href="#" class="hover:text-amber-700 transition" aria-label="TikTok">
-                <i class="fab fa-tiktok fa-lg"></i>
-            </a>
-        </div>
-
-        <!-- Copyright -->
-        &copy; 2025 <span class="text-[#7d4717] font-semibold">Batik Larasena</span>. All rights reserved.
-
-    </div>
-</footer>
-
-
-
-
-
+    </footer>
 
     <script>
-        // JavaScript untuk handle mobile menu toggle
         document.addEventListener('DOMContentLoaded', () => {
+            // JavaScript untuk handle mobile menu toggle
             const mobileMenuButton = document.getElementById('mobile-menu-button');
             const mobileMenu = document.getElementById('mobile-menu');
 
             mobileMenuButton.addEventListener('click', () => {
                 mobileMenu.classList.toggle('hidden');
             });
+
+            // Logika Accordion FAQ yang lebih baik
+            const questions = document.querySelectorAll('.question-answer');
+
+            questions.forEach(function(question) {
+                // Membuat seluruh div 'question' (header pertanyaan) dapat diklik
+                const questionHeader = question.querySelector('.question'); 
+                
+                questionHeader.addEventListener("click", function() {
+                    // Cek apakah item yang diklik saat ini sudah terbuka
+                    const isAlreadyOpen = question.classList.contains("show-text");
+
+                    // Selalu tutup semua item terlebih dahulu
+                    questions.forEach(function(item) {
+                        item.classList.remove("show-text");
+                    });
+
+                    // Jika item yang diklik tadi belum terbuka, maka buka sekarang.
+                    // Ini menciptakan efek 'satu per satu' (accordion)
+                    if (!isAlreadyOpen) {
+                        question.classList.add("show-text");
+                    }
+                    // Jika item yang diklik sudah terbuka, perintah loop di atas sudah
+                    // menghapus class 'show-text', sehingga item tersebut akan tertutup.
+                });
+            });
         });
     </script>
-
 </body>
 </html>
